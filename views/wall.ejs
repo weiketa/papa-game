@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>啪啪啪打怪</title>
+</head>
+<style>
+    *{ padding: 0; border: 0;margin: 0; font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial,"微软雅黑"}
+    html{display: block; width: 100%;
+        height: 100%;}
+    body{
+        display: block; width: 100%;
+        height: 100%; overflow: hidden; background:url(images/bg.png); position: relative;
+        background-size:100% 100%;
+    }
+    #page_1{
+        width:1024px; height:768px; display: block; margin:auto;
+        background: url(images/page_1_bg.png) center no-repeat;
+        background-size: 100% 100%;
+    }
+    #qr{
+        width:240px; height:240px; display: block; margin: auto; -webkit-transform: translateY(285px);
+    }
+    #number{ width:220px;
+        height: 78px; display: block; margin:auto; -webkit-transform: translateY(300px);
+        background:url(images/number.png) left no-repeat;
+    }
+    #game{
+        width:1024px; height:768px; display: block; margin: auto; position:relative;
+    }
+    div.item{
+        width:358px;height:234px; position:absolute; right:-358px;
+    }
+    div.item > article{
+        width:100%; height:100%; display:block;position:relative;
+    }
+    div.item.active > article{
+        -webkit-transform: translateX(-1566px);
+        -webkit-transition-duration: 12000ms;
+        -webkit-animation-duration: 12000ms;
+        -webkit-animation-timing-function: linear;
+        -webkit-transition-timing-function: linear;
+
+    }
+
+    #page_3{
+        width:1024px; height:768px; display: block; margin:auto; position:relative;
+        background:url(images/page_3_bg.png) center no-repeat;
+        background-size:1024px 768px;
+    }
+    div.item > article > *{
+        position:absolute;left:0; top:0
+    }
+    div.item.boom > article{
+        opacity:0;
+        -webkit-transition-duration: 600ms;
+        -webkit-animation-duration: 600ms;
+    }
+    div.item > article > img:nth-child(10){opacity:0}
+    div.item.boom > article > img:nth-child(1){ -webkit-transform: translate(-100px,100px)}
+    div.item.boom > article > img:nth-child(2){ -webkit-transform: translate(-100px,-100px)}
+    div.item.boom > article > img:nth-child(3){ -webkit-transform: translate(100px,100px)}
+    div.item.boom > article > img:nth-child(4){ -webkit-transform: translate(100px,-100px)}
+    div.item.boom > article > img:nth-child(5){ -webkit-transform: translate(300px,100px)}
+    div.item.boom > article > img:nth-child(6){ -webkit-transform: translate(-200px,-100px)}
+    div.item.boom > article > img:nth-child(7){ -webkit-transform: translate(50px,-150px)}
+    div.item.boom > article > img:nth-child(8){ -webkit-transform: translate(50px,100px)}
+    div.item.boom > article > img:nth-child(9){ -webkit-transform: translate(130px,-300px)}
+    div.item.boom > article > img:nth-child(10){ opacity:1}
+
+    div.item.boom > article > img{
+        opacity:0;
+        -webkit-transition-duration: 600ms;
+        -webkit-animation-duration: 600ms;
+    }
+    #rank{
+        width:720px; height:420px; margin:auto; display: block; margin:auto; position:relative;
+        line-height: 70px; color:#4e3922; font-size: 20px; font-weight: bold;
+        -webkit-transform: translateY(208px);
+    }
+    #rank_btn{
+        width:180px; height:50px; margin:auto; display:block; margin:auto;
+        -webkit-transform: translateY(22px);
+    }
+    #rank > article{height:70px; line-height: 70px; width:100%;}
+    #rank > article > span{ width:50%; height:70px; line-height: 70px; display: block; float:left; }
+    #rank > article > span:nth-child(1){
+        text-align: right;
+    }
+    #rank > article > span:nth-child(2){
+        text-align: center;
+    }
+</style>
+<body>
+<div id="page_1">
+    <div id="qr"><img src="images/localhost.png"></div>
+</div>
+<div id="page_2">
+    <div id="number">
+
+    </div>
+</div>
+<div id="game">
+
+</div>
+<div id="page_3">
+    <section id="rank">
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+        <article>
+            <span>123分</span>
+            <span>蔡磊</span>
+        </article>
+    </section>
+    <div id="rank_btn"></div>
+</div>
+<audio src="bg.mp3" preload="auto" autoplay loop></audio>
+<audio src="pa.mp3" preload="auto"></audio>
+</body>
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="js/qr.js"></script>
+<script src="https://cdn1.lncld.net/static/js/av-mini-0.5.4.js"></script>
+<script src="js/AV.push.js"></script>
+<!--<script>
+    $("audio")[0].play();
+    var appId = 'seda2ojcbee75ih5w63cs9lp1g13it03v32k8cm7docvyz6q';
+    var appKey = 'tf6vqda3lw7go3g1r8if6w948fs3ylqmuup0f6ghcqc2432e';
+    AV.initialize(appId, appKey);
+
+    var channel = "";
+    var push = AV.push({
+        appId: appId,
+        appKey: appKey
+    });
+
+    var isReady = false;
+    push.open(function() {
+        console.log('连接服务器成功，可以接收推送');
+    });
+    push.on('message', function(data) {
+        //只接收消息
+        //console.log(data);
+        var type = data.type;
+        var uid = data.uid;
+        var vchannel = data.channel;
+        if(type < 10 && vchannel == channel){
+            boom(type,uid);
+        }else{
+            //有玩家加入
+            if(type == 20 && vchannel == channel){
+                var user = findUser(uid)
+                if(user == null){
+                    var nickname = data.nickname;
+                    var headimgurl = data.headimgurl;
+                    addUser(uid,nickname,headimgurl);
+                    if(users.length >= 2 && !isReady){
+                        isReady = true;
+                        ready();
+                    }
+                }
+            }
+        }
+    });
+
+    var users = [];
+    function addUser(uid,nickname,headimgurl){
+        users.push({
+            uid:uid,
+            nickname:nickname,
+            headimgurl:headimgurl,
+            score:0
+        });
+    }
+    function findUser(uid){
+        for(var i = 0 ; i < users.length; i++){
+            if(users[i].uid == uid){
+                return users[i];
+            }
+        }
+        return null;
+    }
+
+    $(document).click(function(){
+        var type = parseInt(Math.random() * 1024) % 6 + 1;
+        boom(type);
+    })
+    connect();
+
+    function connect(){
+        channel =  parseInt(Math.random() * 80000);
+        var qrkey = "http://timelineapp.pointstone.org/ci/authorize/base_userinfo/?gameurl=http://tttang.didaren.com/magic/index.php?channel=" + channel;
+        $('#qr').qrcode({width:235,height:235,correctLevel:0,text:qrkey});
+
+        /*
+         setTimeout(function(){
+         ready();
+         },1000)
+
+         */
+    }
+    $("#rank_btn").click(function(e){
+        window.location.href = "http://tttang.didaren.com/magic/wall.html"
+    });
+    var inte = -1;
+    var index = 0;
+    function ready(){
+        //播放倒计时
+        $("#page_1").hide();
+
+        inte = setInterval(function(){
+            index ++;
+            $("#number").css("background-position","-" + (index * 220) + "px,0");
+            if(index > 3){
+                clearInterval(inte);
+
+                start();
+            }
+        },1000);
+
+    }
+
+    var inte = -1;
+    function start(){
+        $("#page_2").hide();
+        inte = setInterval(function(){
+            createItem();
+        },2000);
+
+        setTimeout(function(){
+            clearInterval(inte);
+            rank();
+        },30000)
+    }
+
+    var items = [];
+
+    function createItem(){
+        var type = parseInt(Math.random() * 1024) % 3 + 1;
+
+        if(type == 3){
+            type = 4;
+        }
+
+        items.push({type:type,boom:false,uid:-1});
+
+        var dom = $("<div></div>").addClass("item").attr("data-index",items.length);
+        var rand = parseInt(Math.random() * 500);
+
+        $(dom).addClass("type-" + type);
+
+        var item = $("<article></article>").appendTo(dom);
+        $(dom).css("top",rand);
+        $("<img />").attr("src","images/item_0.png").prependTo(item);
+        $("<img />").attr("src","images/item_1.png").prependTo(item);
+        $("<img />").attr("src","images/item_2.png").prependTo(item);
+        $("<img />").attr("src","images/item_3.png").prependTo(item);
+        $("<img />").attr("src","images/item_4.png").prependTo(item);
+        $("<img />").attr("src","images/item_5.png").prependTo(item);
+        $("<img />").attr("src","images/item_6.png").prependTo(item);
+        $("<img />").attr("src","images/item_7.png").prependTo(item);
+        $("<img />").attr("src","images/item_8.png").prependTo(item);
+        $("<img />").attr("src","images/cloud.png").appendTo(item);
+        $("<img />").attr("src","images/type_" + type + ".png").appendTo(item);
+
+
+
+        $(dom).appendTo("#game");
+        setTimeout(function(){
+            $(dom).addClass("active");
+        },100);
+        setTimeout(function(_index){
+            return function(){
+                items[_index].boom = true;
+            }
+        }(items.length),12000)
+    }
+
+    function boom(type,uid){
+        var item = $(".type-" + type);
+        $("audio")[1].play();
+        for(var i = 0 ; i < item.length ; i ++){
+            var item_index = parseInt($(item[i]).attr("data-index")) - 1;
+
+            if(items[item_index].boom == false){
+                items[item_index].boom = true;
+                items[item_index].uid = uid;
+            }
+        }
+        $(".type-" + type).addClass("boom");
+    }
+
+    function rank(){
+        //显示排行榜
+        $("#game").hide();
+
+        $("#rank").html("");
+
+        for(var i = 0 ; i< items.length ; i ++){
+            var user = findUser(items[i].uid);
+            if(user != null){
+                user.score ++;
+            }
+        }
+
+        for(var i = 0 ; i < 6 ; i ++){
+            var user_dom = $("<article></article>");
+            if(i < users.length){
+                $("<span></span>").html(users[i]["nickname"]).appendTo(user_dom);
+                $("<span></span>").html(users[i]["score"]).appendTo(user_dom);
+            }else{
+                $("<span></span>").html("").appendTo(user_dom);
+                $("<span></span>").html("").appendTo(user_dom);
+            }
+            $(user_dom).appendTo("#rank");
+        }
+    }
+</script>-->
+</html>
